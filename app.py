@@ -149,3 +149,26 @@ st.markdown("""
     }
     </style>
 """, unsafe_allow_html=True)
+
+resumen = calcular_resumen(df)
+col1, col2, col3 = st.columns(3)
+
+col1.metric("💰Ventas Totales", f"₡{resumen['ventas']:,.0f}", delta="10%")
+col2.metric("📈Ganancia Total", f"₡{resumen['ganancia']:,.0f}", delta="10%")
+col3.metric("📦Número de Órdenes", resumen['ordenes'], delta="10%")
+
+st.subheader("Tendencia de Ventas Mensuales")
+datos_mes = ventas_por_mes(df)
+st.line_chart(datos_mes, x="Año_Mes", y="Ventas", color="#FF0000")
+
+col_izq, col_der = st.columns(2)
+
+with col_izq:
+    st.subheader("Ventas por Categoría")
+    datos_cat = ventas_por_categoria(df)
+    st.bar_chart(datos_cat, x="Categoria", y="Ventas", color="#008000")
+
+with col_der:
+    st.subheader("Distribución por Región")
+    datos_reg = ventas_por_region(df)
+    st.bar_chart(datos_reg, x="Region", y="Ventas", color="#0000FF")
