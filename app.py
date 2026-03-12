@@ -46,3 +46,16 @@ def filtrar_datos(df, años=None, categorias=None, regiones=None):
         resultado = resultado[resultado["Region"].isin(regiones)]
     return resultado
 
+def obtener_opciones(df: pd.DataFrame) -> dict:
+    """
+    Retorna un diccionario con las opciones unicas para los filtros.
+
+    Llaves: "años", "categorias", "regiones"
+    Cada una contiene una lista ordenada.
+    """
+    return {
+        "años": sorted(df["Año"].unique().tolist()),
+        "categorias": sorted(df["Categoria"].unique().tolist()),
+        "regiones": sorted(df["Region"].unique().tolist()),
+    }
+
