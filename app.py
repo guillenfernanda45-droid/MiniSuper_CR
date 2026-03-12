@@ -23,3 +23,26 @@ def calcular_resumen(df: pd.DataFrame) -> dict:
         "ganancia": round(df["Ganancia"].sum(), 2),
         "ordenes": df["ID_Orden"].nunique(),
     }
+
+def filtrar_datos(df, años=None, categorias=None, regiones=None):
+    """
+    Filtra el DataFrame segun los parametros indicados.
+    Si un parametro es None, no aplica ese filtro.
+
+    Parametros:
+        df: DataFrame original
+        años: lista de enteros, por ejemplo [2023, 2024]
+        categorias: lista de strings, por ejemplo ["Tecnologia"]
+        regiones: lista de strings, por ejemplo ["Central"]
+
+    Retorna un DataFrame filtrado.
+    """
+    resultado = df.copy()
+    if años:
+        resultado = resultado[resultado["Año"].isin(años)]
+    if categorias:
+        resultado = resultado[resultado["Categoria"].isin(categorias)]
+    if regiones:
+        resultado = resultado[resultado["Region"].isin(regiones)]
+    return resultado
+
