@@ -172,3 +172,6 @@ with col_der:
     st.subheader("Distribución por Región")
     datos_reg = ventas_por_region(df)
     st.bar_chart(datos_reg, x="Region", y="Ventas", color="#0000FF")
+
+st.subheader("📊 Tabla de datos")
+st.dataframe(df, use_container_width=True, hide_index=True)
