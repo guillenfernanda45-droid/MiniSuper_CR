@@ -59,3 +59,43 @@ def obtener_opciones(df: pd.DataFrame) -> dict:
         "regiones": sorted(df["Region"].unique().tolist()),
     }
 
+def ventas_por_mes(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Agrupa las ventas por mes.
+
+    Retorna un DataFrame con columnas: Año_Mes, Ventas
+    Ordenado de manera cronologica.
+    """
+    df = df.copy()
+    df["Año_Mes"] = pd.to_datetime(df["Fecha_Orden"]).dt.to_period("M").astype(str)
+    return (
+        df.groupby("Año_Mes")["Ventas"].sum()
+        .reset_index().sort_values("Año_Mes")
+        .round(2)
+    )
+
+def ventas_por_categoria(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Agrupa las ventas por categoria de producto.
+
+    Retorna un DataFrame con columnas: Categoria, Ventas
+    """
+    return (
+        df.groupby("Categoria")["Ventas"].sum()
+        .reset_index().sort_values("Ventas", ascending=False)
+        .round(2)
+    )
+
+def ventas_por_region(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Agrupa las ventas por region geografica.
+
+    Retorna un DataFrame con columnas: Region, Ventas
+    """
+    return (
+        df.groupby("Region")["Ventas"].sum()
+        .reset_index().sort_values("Ventas", ascending=False)
+        .round(2)
+    )
+df_base = cargar_datos()
+
