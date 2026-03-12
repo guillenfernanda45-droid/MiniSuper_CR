@@ -99,3 +99,53 @@ def ventas_por_region(df: pd.DataFrame) -> pd.DataFrame:
     )
 df_base = cargar_datos()
 
+st.title("📊 Análisis de Ventas Super Tienda CR")
+
+st.sidebar.header("Filtros de búsqueda")
+opciones = obtener_opciones(df_base)
+
+filtro_años = st.sidebar.multiselect(
+    ":blue[Seleccione Año(s):]", 
+    opciones["años"], 
+    default=opciones["años"]
+)
+
+filtro_cat = st.sidebar.multiselect(
+    ":red[Categoría de Producto:]", 
+    opciones["categorias"],
+    default=opciones["categorias"]
+)
+
+filtro_reg = st.sidebar.multiselect(
+    ":green[Región Geográfica:]",
+    opciones["regiones"],
+    default=opciones["regiones"]
+)
+
+df = filtrar_datos(df_base, años=filtro_años, categorias=filtro_cat, regiones=filtro_reg)
+
+st.markdown("""
+    <style>
+    span[data-baseweb="tag"] {
+        background-color: #2c2c2c !important;
+        color: #FF4B4B !important;
+        border: 1px solid #FF4B4B;
+    }
+    section[data-testid="stSidebar"] .stButton > button {
+        font-size: 12px !important;
+        padding: 2px 15px !important;
+        min-height: 30px !important;
+        width: auto !important;
+        border: 2px solid #007bff !important; 
+        color: #007bff !important;
+        background-color: transparent;
+        border-radius: 8px;
+        transition: 0.3s;
+    }
+    section[data-testid="stSidebar"] .stButton > button:active {
+        border-color: #28A745 !important;
+        color: #28A745 !important;
+        background-color: #fff5f5;
+    }
+    </style>
+""", unsafe_allow_html=True)
